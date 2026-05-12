@@ -1,14 +1,33 @@
 @import "tailwindcss";
 
 @theme {
-  --color-forest: #1a3c2e;
-  --color-forest-dark: #122a20;
-  --color-forest-light: #2a5242;
-  --color-cream: #f8f5f0;
-  --color-cream-dark: #ede9e2;
-  --color-gold: #c9a84c;
-  --color-gold-light: #d4b56a;
-  --color-charcoal: #2c2c2c;
+  /* Dark tones — near-black with warm forest undertone */
+  --color-ink: #0B1310;
+  --color-deep: #131F18;
+  --color-forest: #1B3328;
+  --color-forest-dark: #0F1E16;
+  --color-forest-light: #254D3A;
+  --color-grove: #2A4D3C;
+
+  /* Light tones — warm parchment, not flat cream */
+  --color-parchment: #F1EBE0;
+  --color-parchment-dark: #E8DFD0;
+  --color-sand: #DDD3C2;
+
+  /* Legacy aliases so existing class names don't break */
+  --color-cream: #F1EBE0;
+  --color-cream-dark: #E8DFD0;
+
+  /* Accent — deep copper-amber */
+  --color-gold: #B8782A;
+  --color-gold-light: #CC8E42;
+  --color-copper: #B8782A;
+  --color-copper-light: #CC8E42;
+
+  /* Text */
+  --color-charcoal: #1C1812;
+  --color-muted: #6B6358;
+
   --font-sans: var(--font-inter);
 }
 
@@ -17,6 +36,25 @@ html {
 }
 
 body {
-  background: #f8f5f0;
-  color: #2c2c2c;
+  background: #F1EBE0;
+  color: #1C1812;
+}
+
+/* Grain texture for dark sections */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

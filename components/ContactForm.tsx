@@ -9,22 +9,12 @@ type FormValues = {
   email: string;
   phone?: string;
   websiteUrl?: string;
-  lookingFor: string;
   budget: string;
   businessDescription: string;
 };
 
-const lookingForOptions = [
-  { value: "", label: "Select an option..." },
-  { value: "new-website", label: "New Website" },
-  { value: "redesign", label: "Website Redesign" },
-  { value: "retainer", label: "Monthly Retainer" },
-  { value: "not-sure", label: "Not Sure" },
-];
-
 const budgetOptions = [
   { value: "", label: "Select a range..." },
-  { value: "under-2000", label: "Under $2,000" },
   { value: "2000-3500", label: "$2,000 – $3,500" },
   { value: "3500-5000", label: "$3,500 – $5,000" },
   { value: "5000-plus", label: "$5,000+" },
@@ -62,90 +52,72 @@ export default function ContactForm() {
 
   if (status === "success") {
     return (
-      <div className="bg-forest/8 border border-forest/20 rounded-xl p-10 text-center">
+      <div className="bg-forest/8 border border-forest/15 rounded-xl p-12 text-center">
         <div className="w-14 h-14 bg-forest rounded-full flex items-center justify-center mx-auto mb-5">
-          <svg
-            className="w-7 h-7 text-gold"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2.5}
-              d="M5 13l4 4L19 7"
-            />
+          <svg className="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h3 className="text-2xl font-bold text-forest mb-3">
-          Inquiry Received!
-        </h3>
-        <p className="text-charcoal/70 leading-relaxed max-w-sm mx-auto">
-          Thanks! We&apos;ll be in touch within 1 business day.
+        <h3 className="text-2xl font-bold text-forest mb-3">Inquiry Received!</h3>
+        <p className="text-muted leading-relaxed max-w-sm mx-auto">
+          Thanks — we&apos;ll be in touch within 1 business day.
         </p>
       </div>
     );
   }
 
-  const inputClass =
-    "w-full px-4 py-3 rounded-lg border bg-white text-charcoal text-sm focus:outline-none focus:ring-2 focus:ring-forest/30 focus:border-forest transition-colors placeholder:text-charcoal/35";
-  const errorInputClass = "border-red-400";
-  const defaultInputClass = "border-cream-dark";
-  const labelClass = "block text-sm font-medium text-charcoal mb-1.5";
-  const errorMsgClass = "mt-1.5 text-xs text-red-500";
+  const base =
+    "w-full px-4 py-3 rounded-lg border bg-white text-charcoal text-sm focus:outline-none focus:ring-2 focus:ring-forest/20 focus:border-forest/50 transition-colors placeholder:text-muted/40";
+  const err = "border-red-300";
+  const ok = "border-sand";
+  const lbl = "block text-sm font-medium text-charcoal mb-1.5";
+  const msg = "mt-1.5 text-xs text-red-500";
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Full Name */}
         <div>
-          <label htmlFor="fullName" className={labelClass}>
+          <label htmlFor="fullName" className={lbl}>
             Full Name <span className="text-red-400">*</span>
           </label>
           <input
             id="fullName"
             type="text"
             placeholder="Jane Smith"
-            className={`${inputClass} ${errors.fullName ? errorInputClass : defaultInputClass}`}
+            className={`${base} ${errors.fullName ? err : ok}`}
             {...register("fullName", { required: "Please enter your name" })}
           />
-          {errors.fullName && (
-            <p className={errorMsgClass}>{errors.fullName.message}</p>
-          )}
+          {errors.fullName && <p className={msg}>{errors.fullName.message}</p>}
         </div>
 
         {/* Business Name */}
         <div>
-          <label htmlFor="businessName" className={labelClass}>
+          <label htmlFor="businessName" className={lbl}>
             Business Name <span className="text-red-400">*</span>
           </label>
           <input
             id="businessName"
             type="text"
             placeholder="Acme Co."
-            className={`${inputClass} ${errors.businessName ? errorInputClass : defaultInputClass}`}
-            {...register("businessName", {
-              required: "Please enter your business name",
-            })}
+            className={`${base} ${errors.businessName ? err : ok}`}
+            {...register("businessName", { required: "Please enter your business name" })}
           />
-          {errors.businessName && (
-            <p className={errorMsgClass}>{errors.businessName.message}</p>
-          )}
+          {errors.businessName && <p className={msg}>{errors.businessName.message}</p>}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Email */}
         <div>
-          <label htmlFor="email" className={labelClass}>
+          <label htmlFor="email" className={lbl}>
             Email <span className="text-red-400">*</span>
           </label>
           <input
             id="email"
             type="email"
             placeholder="jane@yourbusiness.ca"
-            className={`${inputClass} ${errors.email ? errorInputClass : defaultInputClass}`}
+            className={`${base} ${errors.email ? err : ok}`}
             {...register("email", {
               required: "Please enter your email",
               pattern: {
@@ -154,22 +126,19 @@ export default function ContactForm() {
               },
             })}
           />
-          {errors.email && (
-            <p className={errorMsgClass}>{errors.email.message}</p>
-          )}
+          {errors.email && <p className={msg}>{errors.email.message}</p>}
         </div>
 
         {/* Phone */}
         <div>
-          <label htmlFor="phone" className={labelClass}>
-            Phone{" "}
-            <span className="text-charcoal/40 font-normal">(optional)</span>
+          <label htmlFor="phone" className={lbl}>
+            Phone <span className="text-muted/50 font-normal">(optional)</span>
           </label>
           <input
             id="phone"
             type="tel"
             placeholder="(403) 555-0100"
-            className={`${inputClass} ${defaultInputClass}`}
+            className={`${base} ${ok}`}
             {...register("phone")}
           />
         </div>
@@ -177,93 +146,60 @@ export default function ContactForm() {
 
       {/* Website URL */}
       <div>
-        <label htmlFor="websiteUrl" className={labelClass}>
+        <label htmlFor="websiteUrl" className={lbl}>
           Current Website{" "}
-          <span className="text-charcoal/40 font-normal">(if you have one)</span>
+          <span className="text-muted/50 font-normal">(if you have one)</span>
         </label>
         <input
           id="websiteUrl"
           type="url"
           placeholder="https://yourwebsite.ca"
-          className={`${inputClass} ${defaultInputClass}`}
+          className={`${base} ${ok}`}
           {...register("websiteUrl")}
         />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        {/* What are you looking for */}
-        <div>
-          <label htmlFor="lookingFor" className={labelClass}>
-            What are you looking for? <span className="text-red-400">*</span>
-          </label>
-          <select
-            id="lookingFor"
-            className={`${inputClass} ${errors.lookingFor ? errorInputClass : defaultInputClass}`}
-            {...register("lookingFor", { required: "Please select an option" })}
-          >
-            {lookingForOptions.map((opt) => (
-              <option key={opt.value} value={opt.value} disabled={opt.value === ""}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
-          {errors.lookingFor && (
-            <p className={errorMsgClass}>{errors.lookingFor.message}</p>
-          )}
-        </div>
-
-        {/* Budget */}
-        <div>
-          <label htmlFor="budget" className={labelClass}>
-            Budget Range <span className="text-red-400">*</span>
-          </label>
-          <select
-            id="budget"
-            className={`${inputClass} ${errors.budget ? errorInputClass : defaultInputClass}`}
-            {...register("budget", { required: "Please select a budget range" })}
-          >
-            {budgetOptions.map((opt) => (
-              <option key={opt.value} value={opt.value} disabled={opt.value === ""}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
-          {errors.budget && (
-            <p className={errorMsgClass}>{errors.budget.message}</p>
-          )}
-        </div>
+      {/* Budget */}
+      <div>
+        <label htmlFor="budget" className={lbl}>
+          Budget Range <span className="text-red-400">*</span>
+        </label>
+        <select
+          id="budget"
+          className={`${base} ${errors.budget ? err : ok}`}
+          {...register("budget", { required: "Please select a budget range" })}
+        >
+          {budgetOptions.map((opt) => (
+            <option key={opt.value} value={opt.value} disabled={opt.value === ""}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+        {errors.budget && <p className={msg}>{errors.budget.message}</p>}
       </div>
 
       {/* Business description */}
       <div>
-        <label htmlFor="businessDescription" className={labelClass}>
+        <label htmlFor="businessDescription" className={lbl}>
           Tell us about your business <span className="text-red-400">*</span>
         </label>
         <textarea
           id="businessDescription"
           rows={5}
-          placeholder="A little about your business, what you do, who you serve, and what you're hoping a new website will help you achieve..."
-          className={`${inputClass} resize-none ${errors.businessDescription ? errorInputClass : defaultInputClass}`}
+          placeholder="A little about your business, who you serve, and what you're hoping a new website will help you achieve..."
+          className={`${base} resize-none ${errors.businessDescription ? err : ok}`}
           {...register("businessDescription", {
             required: "Please tell us a bit about your business",
-            minLength: {
-              value: 30,
-              message: "Please provide at least a sentence or two",
-            },
+            minLength: { value: 30, message: "Please provide at least a sentence or two" },
           })}
         />
-        {errors.businessDescription && (
-          <p className={errorMsgClass}>{errors.businessDescription.message}</p>
-        )}
+        {errors.businessDescription && <p className={msg}>{errors.businessDescription.message}</p>}
       </div>
 
       {status === "error" && (
         <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3">
-          Something went wrong. Please try again or email us directly at{" "}
-          <a
-            href="mailto:hello@trellisdigital.ca"
-            className="underline font-medium"
-          >
+          Something went wrong. Please try again or email us at{" "}
+          <a href="mailto:hello@trellisdigital.ca" className="underline font-medium">
             hello@trellisdigital.ca
           </a>
           .
@@ -273,12 +209,12 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="w-full bg-forest text-white font-semibold py-4 rounded-lg hover:bg-forest-dark transition-colors disabled:opacity-60 disabled:cursor-not-allowed text-sm sm:text-base"
+        className="w-full bg-forest text-white font-semibold py-4 rounded-lg hover:bg-forest-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
       >
         {status === "submitting" ? "Sending..." : "Send My Inquiry"}
       </button>
 
-      <p className="text-xs text-charcoal/40 text-center">
+      <p className="text-xs text-muted/50 text-center">
         We typically respond within 1 business day. No spam, ever.
       </p>
     </form>
