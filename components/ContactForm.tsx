@@ -36,13 +36,13 @@ export default function ContactForm() {
       const scriptUrl = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
       if (!scriptUrl) throw new Error("Script URL not configured");
 
-      const res = await fetch(scriptUrl, {
+      await fetch(scriptUrl, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain" },
         body: JSON.stringify(data),
       });
 
-      if (!res.ok) throw new Error("Submission failed");
       setStatus("success");
       reset();
     } catch {
