@@ -60,7 +60,7 @@ export default function ContactForm() {
         </div>
         <h3 className="text-2xl font-bold text-forest mb-3">Inquiry Received!</h3>
         <p className="text-muted leading-relaxed max-w-sm mx-auto">
-          Thanks — we&apos;ll be in touch within 1 business day.
+          We&apos;ll be in touch within one business day.
         </p>
       </div>
     );

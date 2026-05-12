@@ -9,7 +9,7 @@ const services = [
       </svg>
     ),
     title: "Website Design",
-    description: "A professionally designed, fast-loading website tailored to your business. Built from scratch — not a template.",
+    description: "A professionally designed, fast-loading website built specifically for your business. Not copied from a template.",
   },
   {
     icon: (

@@ -14,27 +14,33 @@ const projects = [
     industry: "Adventure Tourism",
     location: "Fernie, BC",
     description:
-      "A complete website rebuild for a guided adventure tour operator in the Rockies. New custom booking form, seasonal trip listings, and a mobile-first gallery — resulting in a 40% increase in online inquiries within three months of launch.",
+      "A full rebuild for a guided adventure tour operator in the Rockies. New booking form, seasonal trip listings, and a mobile-first gallery. Online inquiries were up 40% within three months of launch.",
     tags: ["Website Redesign", "Custom Forms", "SEO Setup", "Mobile-First"],
-    gradient: "bg-gradient-to-br from-forest to-ink",
+    gradient: "bg-gradient-to-br from-[#1B4D35] via-[#163D2A] to-[#0B1310]",
+    accentColor: "#4CAF82",
+    pattern: "mountains",
   },
   {
     name: "Prairie Root Kitchen",
     industry: "Food & Beverage",
     location: "Lacombe, AB",
     description:
-      "Brand-new website for a farm-to-table restaurant in central Alberta. Built from scratch with an interactive menu, online reservation form, and local SEO setup targeting nearby communities. Launched ahead of their spring opening.",
+      "A brand-new site for a farm-to-table restaurant in central Alberta. Interactive menu, online reservations, and local SEO targeting the surrounding communities. Launched ahead of schedule.",
     tags: ["New Website", "Reservations", "Local SEO", "Menu System"],
-    gradient: "bg-gradient-to-br from-[#3D2B1A] to-[#1A0E08]",
+    gradient: "bg-gradient-to-br from-[#5C3317] via-[#3D2010] to-[#1A0A05]",
+    accentColor: "#D4854A",
+    pattern: "organic",
   },
   {
     name: "Summit Legal Group",
     industry: "Professional Services",
     location: "Calgary, AB",
     description:
-      "A clean, authoritative site for a corporate law firm. Includes practice area pages, individual lawyer profiles, a client consultation request form, and schema markup for local search visibility.",
+      "A clean, professional site for a corporate law firm. Practice area pages, lawyer profiles, a consultation request form, and schema markup for local search.",
     tags: ["New Website", "Professional Design", "SEO", "Consultation Form"],
-    gradient: "bg-gradient-to-br from-[#1A2436] to-[#0B0F18]",
+    gradient: "bg-gradient-to-br from-[#1C2E4A] via-[#122038] to-[#080F1C]",
+    accentColor: "#6B9FD4",
+    pattern: "grid",
   },
 ];
 
@@ -56,8 +62,8 @@ export default function WorkPage() {
               Work We&apos;re Proud Of
             </h1>
             <p className="text-white/45 text-lg max-w-lg leading-relaxed">
-              Every project is custom — no templates, no shortcuts. Hover over a
-              card to see the full story.
+              Every project is built from scratch. Hover over a card to read
+              about the work.
             </p>
           </AnimatedSection>
         </div>
@@ -86,8 +92,8 @@ export default function WorkPage() {
               Want to Be Our Next Project?
             </h2>
             <p className="text-white/40 mb-10 text-lg leading-relaxed">
-              We&apos;re currently accepting new clients. Get in touch and
-              let&apos;s talk about what we can build for you.
+              We&apos;re currently taking on new clients. Get in touch and
+              tell us what you&apos;re working with.
             </p>
             <Link
               href="/contact"

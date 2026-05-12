@@ -23,8 +23,8 @@ export default function CTABanner() {
                 Let&apos;s Build Something Your Customers Will Remember
               </h2>
               <p className="text-white/50 text-lg max-w-md mx-auto mb-10 leading-relaxed">
-                Tell us about your business and we&apos;ll put together a clear
-                plan and quote — no obligation.
+                Tell us about your business. We&apos;ll put together a clear
+                plan and a fixed quote at no cost to you.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
