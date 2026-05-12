@@ -1,36 +1,124 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Trellis Digital — Agency Website
+
+Professional agency website for Trellis Digital, built with Next.js 16, Tailwind CSS v4, Framer Motion, and React Hook Form.
+
+## Tech Stack
+
+- **Next.js 16** (App Router, TypeScript)
+- **Tailwind CSS v4** (CSS-first configuration)
+- **Framer Motion 12** (scroll-triggered animations)
+- **React Hook Form 7** (contact form validation)
+- **Google Apps Script** (form → Google Sheets integration)
 
 ## Getting Started
 
-First, run the development server:
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Configure the environment
+
+Copy the example env file and fill in your Google Apps Script URL:
+
+```bash
+cp .env.local.example .env.local
+```
+
+Open `.env.local` and set:
+
+```
+NEXT_PUBLIC_GOOGLE_SCRIPT_URL=https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec
+```
+
+### 3. Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Google Sheets Form Integration
 
-## Learn More
+The contact form on `/contact` posts submissions to a Google Apps Script webhook. To set this up:
 
-To learn more about Next.js, take a look at the following resources:
+### Step 1 — Create a Google Sheet
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Go to [sheets.google.com](https://sheets.google.com) and create a new spreadsheet.
+2. Name the first row columns to match the form fields:
+   `Full Name | Business Name | Email | Phone | Website URL | Looking For | Budget | Business Description | Timestamp`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Step 2 — Deploy a Google Apps Script
 
-## Deploy on Vercel
+1. In your Google Sheet, go to **Extensions → Apps Script**.
+2. Replace the default code with:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```javascript
+function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = JSON.parse(e.postData.contents);
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+  sheet.appendRow([
+    data.fullName,
+    data.businessName,
+    data.email,
+    data.phone || "",
+    data.websiteUrl || "",
+    data.lookingFor,
+    data.budget,
+    data.businessDescription,
+    new Date().toISOString(),
+  ]);
+
+  return ContentService.createTextOutput(
+    JSON.stringify({ status: "ok" })
+  ).setMimeType(ContentService.MimeType.JSON);
+}
+```
+
+3. Click **Deploy → New deployment**.
+4. Set type to **Web app**, execute as **Me**, access to **Anyone**.
+5. Copy the deployed web app URL.
+
+### Step 3 — Add the URL to your environment
+
+Paste the URL into `.env.local`:
+
+```
+NEXT_PUBLIC_GOOGLE_SCRIPT_URL=https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec
+```
+
+> **Note:** Google Apps Script supports CORS for POST requests. If you encounter CORS errors, verify your deployment settings allow access from "Anyone."
+
+---
+
+## Project Structure
+
+```
+site/
+├── app/
+│   ├── layout.tsx          # Root layout with Navbar + Footer
+│   ├── page.tsx            # Home page
+│   ├── services/page.tsx   # Services & pricing
+│   ├── work/page.tsx       # Portfolio
+│   ├── about/page.tsx      # About
+│   └── contact/page.tsx    # Contact page
+├── components/
+│   ├── Navbar.tsx          # Fixed responsive navbar
+│   ├── Footer.tsx          # Site footer
+│   ├── AnimatedSection.tsx # Framer Motion scroll-animation wrapper
+│   ├── Hero.tsx            # Home hero section
+│   ├── ServicesOverview.tsx
+│   ├── WhyTrellis.tsx
+│   ├── CTABanner.tsx
+│   └── ContactForm.tsx     # React Hook Form contact form
+└── .env.local.example
+```
+
+## Deploying
+
+The site is ready to deploy on [Vercel](https://vercel.com). Connect your GitHub repo, add the `NEXT_PUBLIC_GOOGLE_SCRIPT_URL` environment variable in Vercel's project settings, and deploy.
