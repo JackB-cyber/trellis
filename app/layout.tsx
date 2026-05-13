@@ -7,12 +7,14 @@ import Footer from "@/components/Footer";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
+  preload: true,
 });
 
 export const metadata: Metadata = {
   title: "Trellis Digital — Web Design for Canadian Small Businesses",
   description:
-    "Done-for-you web design for Canadian small and medium businesses. Fixed pricing, professional results, zero guesswork.",
+    "Web design for Canadian small businesses. Fixed pricing, honest timelines, and everything handled start to finish.",
 };
 
 export default function RootLayout({

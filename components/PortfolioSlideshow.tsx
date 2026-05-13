@@ -262,6 +262,7 @@ export default function PortfolioSlideshow({ projects }: Props) {
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.15}
             onDragEnd={handleDragEnd}
+            style={{ willChange: "transform, opacity" }}
           >
             <ProjectCard project={projects[current]} />
           </motion.div>

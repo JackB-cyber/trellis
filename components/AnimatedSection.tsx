@@ -18,7 +18,7 @@ export default function AnimatedSection({
   direction = "up",
 }: Props) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const inView = useInView(ref, { once: true, margin: "-100px" });
   const isMobile = useIsMobile();
 
   const initial = {

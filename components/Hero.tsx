@@ -77,23 +77,18 @@ export default function Hero() {
       {/* Static depth gradient */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_-5%,rgba(27,51,40,0.5),transparent)] pointer-events-none" />
 
-      {/* Animated scan lines */}
-      <div className="absolute inset-0 overflow-hidden opacity-[0.035] pointer-events-none">
-        {[...Array(7)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute left-0 right-0 h-px bg-white"
-            style={{ top: `${12 + i * 12}%` }}
-            initial={{ scaleX: 0, originX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 1.6, delay: 0.1 + i * 0.08, ease: [0.25, 0.1, 0.25, 1] }}
-          />
-        ))}
-      </div>
+      {/* Scan lines — pure CSS, zero JS animation cost */}
+      <div
+        className="scan-lines absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(to bottom, transparent 0, transparent calc(12.5% - 0.5px), rgba(255,255,255,0.04) calc(12.5% - 0.5px), rgba(255,255,255,0.04) 12.5%)",
+        }}
+      />
 
       {/* Two-column layout */}
       <motion.div
-        style={{ y: contentY, opacity: contentOpacity }}
+        style={{ y: contentY, opacity: contentOpacity, willChange: "transform, opacity" }}
         className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-8 py-32 pt-36"
       >
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
@@ -205,6 +200,7 @@ export default function Hero() {
               className="absolute -top-5 -right-6 z-20 bg-forest border border-forest-light rounded-xl px-4 py-2.5 shadow-2xl"
               animate={{ y: [0, -6, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              style={{ willChange: "transform" }}
             >
               <div className="text-gold text-sm font-bold">↑ 40% more leads</div>
               <div className="text-white/40 text-xs mt-0.5">3 months post-launch</div>
@@ -215,6 +211,7 @@ export default function Hero() {
               className="absolute -bottom-5 -left-6 z-20 bg-parchment rounded-xl px-4 py-2.5 shadow-2xl"
               animate={{ y: [0, 6, 0] }}
               transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+              style={{ willChange: "transform" }}
             >
               <div className="text-forest text-sm font-bold">PageSpeed 98</div>
               <div className="text-muted text-xs mt-0.5">Performance score</div>
