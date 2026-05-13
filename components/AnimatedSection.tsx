@@ -25,14 +25,14 @@ export default function AnimatedSection({
     opacity: 0,
     y: direction === "up" ? 24 : 0,
     x: direction === "left" ? -24 : direction === "right" ? 24 : 0,
-    ...(isMobile ? {} : { filter: "blur(4px)" }),
+    filter: isMobile ? "blur(0px)" : "blur(4px)",
   };
 
   const visible = {
     opacity: 1,
     y: 0,
     x: 0,
-    ...(isMobile ? {} : { filter: "blur(0px)" }),
+    filter: "blur(0px)",
   };
 
   return (
