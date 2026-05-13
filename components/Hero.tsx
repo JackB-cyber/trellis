@@ -3,12 +3,14 @@
 import Link from "next/link";
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import { useRef, useEffect } from "react";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const headlineWords = ["Your", "Local", "Business", "Deserves", "a", "Website", "That"];
 const accentWords = ["Works."];
 
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
+  const isMobile = useIsMobile();
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
@@ -40,25 +42,37 @@ export default function Hero() {
 
   return (
     <section ref={ref} className="grain relative bg-ink min-h-screen flex items-center overflow-hidden">
-      {/* Cursor-reactive gradient orbs */}
-      <motion.div
-        className="absolute w-[600px] h-[600px] rounded-full pointer-events-none"
-        style={{
-          x: orbX1,
-          y: orbY1,
-          background: "radial-gradient(circle, rgba(27,51,40,0.65) 0%, transparent 70%)",
-          filter: "blur(60px)",
-        }}
-      />
-      <motion.div
-        className="absolute w-[500px] h-[500px] rounded-full pointer-events-none"
-        style={{
-          x: orbX2,
-          y: orbY2,
-          background: "radial-gradient(circle, rgba(184,120,42,0.12) 0%, transparent 70%)",
-          filter: "blur(80px)",
-        }}
-      />
+      {/* Cursor-reactive gradient orbs — reduced on mobile */}
+      {!isMobile && (
+        <>
+          <motion.div
+            className="absolute w-[600px] h-[600px] rounded-full pointer-events-none"
+            style={{
+              x: orbX1,
+              y: orbY1,
+              background: "radial-gradient(circle, rgba(27,51,40,0.65) 0%, transparent 70%)",
+              filter: "blur(60px)",
+            }}
+          />
+          <motion.div
+            className="absolute w-[500px] h-[500px] rounded-full pointer-events-none"
+            style={{
+              x: orbX2,
+              y: orbY2,
+              background: "radial-gradient(circle, rgba(184,120,42,0.12) 0%, transparent 70%)",
+              filter: "blur(80px)",
+            }}
+          />
+        </>
+      )}
+      {isMobile && (
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(27,51,40,0.5) 0%, transparent 70%)",
+          }}
+        />
+      )}
 
       {/* Static depth gradient */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_-5%,rgba(27,51,40,0.5),transparent)] pointer-events-none" />
@@ -107,9 +121,9 @@ export default function Hero() {
                 <motion.span
                   key={i}
                   className="inline-block mr-[0.22em] text-white"
-                  initial={{ opacity: 0, filter: "blur(12px)", y: 20 }}
-                  animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-                  transition={{ duration: 0.55, delay: 0.3 + i * 0.055, ease: [0.25, 0.1, 0.25, 1] }}
+                  initial={{ opacity: 0, y: isMobile ? 12 : 20, ...(isMobile ? {} : { filter: "blur(12px)" }) }}
+                  animate={{ opacity: 1, y: 0, ...(isMobile ? {} : { filter: "blur(0px)" }) }}
+                  transition={{ duration: isMobile ? 0.35 : 0.55, delay: 0.3 + i * (isMobile ? 0.03 : 0.055), ease: [0.25, 0.1, 0.25, 1] }}
                 >
                   {word}
                 </motion.span>
@@ -118,11 +132,11 @@ export default function Hero() {
                 <motion.span
                   key={`a${i}`}
                   className="inline-block mr-[0.22em] text-gold"
-                  initial={{ opacity: 0, filter: "blur(12px)", y: 20 }}
-                  animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+                  initial={{ opacity: 0, y: isMobile ? 12 : 20, ...(isMobile ? {} : { filter: "blur(12px)" }) }}
+                  animate={{ opacity: 1, y: 0, ...(isMobile ? {} : { filter: "blur(0px)" }) }}
                   transition={{
-                    duration: 0.55,
-                    delay: 0.3 + (headlineWords.length + i) * 0.055,
+                    duration: isMobile ? 0.35 : 0.55,
+                    delay: 0.3 + (headlineWords.length + i) * (isMobile ? 0.03 : 0.055),
                     ease: [0.25, 0.1, 0.25, 1],
                   }}
                 >

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence, PanInfo } from "framer-motion";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 interface Project {
   name: string;
@@ -116,20 +117,26 @@ function PatternOverlay({ pattern, accentColor }: { pattern?: string; accentColo
 }
 
 function ProjectCard({ project }: { project: Project }) {
-  const [hovered, setHovered] = useState(false);
+  const [open, setOpen] = useState(false);
+  const isMobile = useIsMobile();
+
+  const handleMouseEnter = () => { if (!isMobile) setOpen(true); };
+  const handleMouseLeave = () => { if (!isMobile) setOpen(false); };
+  const handleClick = () => { if (isMobile) setOpen((p) => !p); };
 
   return (
     <div
-      className="relative overflow-hidden rounded-2xl w-full cursor-default select-none"
-      style={{ height: "clamp(420px, 65vh, 640px)" }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      className="relative overflow-hidden rounded-2xl w-full select-none"
+      style={{ height: "clamp(420px, 65vh, 640px)", cursor: isMobile ? "pointer" : "default" }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
     >
-      {/* Background — blurs when panel is open */}
+      {/* Background — blurs when panel is open (desktop only) */}
       <motion.div
         className="absolute inset-0"
         animate={{
-          filter: hovered ? "blur(10px) brightness(0.5)" : "blur(0px) brightness(1)",
+          filter: open && !isMobile ? "blur(10px) brightness(0.5)" : "blur(0px) brightness(1)",
         }}
         transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
       >
@@ -154,7 +161,7 @@ function ProjectCard({ project }: { project: Project }) {
       {/* Always-visible label */}
       <motion.div
         className="absolute top-8 left-8 right-8 z-10"
-        animate={{ opacity: hovered ? 0 : 1, y: hovered ? -6 : 0 }}
+        animate={{ opacity: open ? 0 : 1, y: open ? -6 : 0 }}
         transition={{ duration: 0.3 }}
       >
         <span className="inline-block text-white/40 text-xs font-semibold tracking-[0.2em] uppercase mb-2">
@@ -166,10 +173,10 @@ function ProjectCard({ project }: { project: Project }) {
         <p className="text-white/35 text-sm mt-1.5">{project.location}</p>
       </motion.div>
 
-      {/* Hover hint */}
+      {/* Hover/tap hint */}
       <motion.div
         className="absolute bottom-7 right-7 z-10"
-        animate={{ opacity: hovered ? 0 : 0.5, y: hovered ? 6 : 0 }}
+        animate={{ opacity: open ? 0 : 0.5, y: open ? 6 : 0 }}
         transition={{ duration: 0.25 }}
       >
         <div className="w-9 h-9 rounded-full border border-white/25 flex items-center justify-center">
@@ -181,11 +188,24 @@ function ProjectCard({ project }: { project: Project }) {
 
       {/* Slide-up overlay */}
       <motion.div
-        className="absolute bottom-0 left-0 right-0 z-20 bg-ink/92 backdrop-blur-sm p-8"
+        className={`absolute bottom-0 left-0 right-0 z-20 bg-ink/92 p-8 ${isMobile ? "" : "backdrop-blur-sm"}`}
         initial={{ y: "100%" }}
-        animate={{ y: hovered ? "0%" : "100%" }}
+        animate={{ y: open ? "0%" : "100%" }}
         transition={{ duration: 0.42, ease: [0.25, 0.1, 0.25, 1] }}
+        onClick={(e) => e.stopPropagation()}
       >
+        {/* Close button — mobile only */}
+        {isMobile && (
+          <button
+            onClick={() => setOpen(false)}
+            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 transition-colors"
+            aria-label="Close"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        )}
         <span
           className="text-xs font-semibold tracking-[0.18em] uppercase"
           style={{ color: project.accentColor ?? "#B8782A" }}

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type FormValues = {
@@ -22,6 +23,34 @@ const budgetOptions = [
 
 export default function ContactForm() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [progress, setProgress] = useState(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    if (status === "submitting") {
+      setProgress(0);
+      intervalRef.current = setInterval(() => {
+        setProgress((prev) => {
+          const increment = Math.random() * 6 + 2;
+          const next = prev + increment;
+          if (next >= 82) {
+            clearInterval(intervalRef.current!);
+            return 82;
+          }
+          return next;
+        });
+      }, 180);
+    }
+    if (status === "success") {
+      clearInterval(intervalRef.current!);
+      setProgress(100);
+    }
+    if (status === "idle" || status === "error") {
+      clearInterval(intervalRef.current!);
+      setProgress(0);
+    }
+    return () => clearInterval(intervalRef.current!);
+  }, [status]);
 
   const {
     register,
@@ -206,13 +235,30 @@ export default function ContactForm() {
         </div>
       )}
 
-      <button
-        type="submit"
-        disabled={status === "submitting"}
-        className="w-full bg-forest text-white font-semibold py-4 rounded-lg hover:bg-forest-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
-      >
-        {status === "submitting" ? "Sending..." : "Send My Inquiry"}
-      </button>
+      {status === "submitting" ? (
+        <div className="w-full bg-forest/8 border border-forest/15 rounded-lg py-4 px-5">
+          <div className="flex items-center justify-between mb-2.5">
+            <span className="text-forest text-sm font-medium">Sending your inquiry...</span>
+            <span className="text-forest text-sm font-bold tabular-nums">
+              {Math.round(progress)}%
+            </span>
+          </div>
+          <div className="w-full h-1.5 bg-forest/10 rounded-full overflow-hidden">
+            <motion.div
+              className="h-full bg-forest rounded-full"
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.18, ease: "linear" }}
+            />
+          </div>
+        </div>
+      ) : (
+        <button
+          type="submit"
+          className="w-full bg-forest text-white font-semibold py-4 rounded-lg hover:bg-forest-dark transition-colors text-sm sm:text-base"
+        >
+          Send My Inquiry
+        </button>
+      )}
 
       <p className="text-xs text-muted/50 text-center">
         We typically respond within 1 business day. No spam, ever.
