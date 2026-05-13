@@ -116,8 +116,8 @@ export default function Hero() {
                 <motion.span
                   key={i}
                   className="inline-block mr-[0.22em] text-white"
-                  initial={{ opacity: 0, y: isMobile ? 12 : 20, ...(isMobile ? {} : { filter: "blur(12px)" }) }}
-                  animate={{ opacity: 1, y: 0, ...(isMobile ? {} : { filter: "blur(0px)" }) }}
+                  initial={{ opacity: 0, y: isMobile ? 12 : 20, filter: isMobile ? "blur(0px)" : "blur(12px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                   transition={{ duration: isMobile ? 0.35 : 0.55, delay: 0.3 + i * (isMobile ? 0.03 : 0.055), ease: [0.25, 0.1, 0.25, 1] }}
                 >
                   {word}
@@ -127,8 +127,8 @@ export default function Hero() {
                 <motion.span
                   key={`a${i}`}
                   className="inline-block mr-[0.22em] text-gold"
-                  initial={{ opacity: 0, y: isMobile ? 12 : 20, ...(isMobile ? {} : { filter: "blur(12px)" }) }}
-                  animate={{ opacity: 1, y: 0, ...(isMobile ? {} : { filter: "blur(0px)" }) }}
+                  initial={{ opacity: 0, y: isMobile ? 12 : 20, filter: isMobile ? "blur(0px)" : "blur(12px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                   transition={{
                     duration: isMobile ? 0.35 : 0.55,
                     delay: 0.3 + (headlineWords.length + i) * (isMobile ? 0.03 : 0.055),
