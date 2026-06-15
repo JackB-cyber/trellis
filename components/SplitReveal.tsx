@@ -51,8 +51,20 @@ export default function SplitReveal({
         mask: "lines",
         autoSplit: true,
         onSplit(self) {
+          // The mask wrappers clip at the (tight) line box, which cuts off
+          // descenders like the italic "g" in "building." Give each wrapper
+          // extra room below and pull it back with a matching negative margin,
+          // so descenders show while the leading and layout stay identical.
+          const masks = self.lines.map((line) => line.parentNode as HTMLElement);
+          gsap.set(masks, {
+            boxSizing: "content-box",
+            paddingBottom: "0.2em",
+            marginBottom: "-0.2em",
+          });
+
           return gsap.from(self.lines, {
-            yPercent: 112,
+            // Start lower than the (now taller) mask so no glyph peeks early.
+            yPercent: 130,
             duration: 1.05,
             stagger,
             ease: "power4.out",

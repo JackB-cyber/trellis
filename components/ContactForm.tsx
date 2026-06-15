@@ -12,6 +12,7 @@ type FormValues = {
   websiteUrl?: string;
   budget: string;
   businessDescription: string;
+  company?: string; // honeypot — must stay empty
 };
 
 const budgetOptions = [
@@ -25,6 +26,8 @@ export default function ContactForm() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [progress, setProgress] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  // Time trap: real users can't fill the whole form this fast; bots can.
+  const mountedAt = useRef(Date.now());
 
   useEffect(() => {
     if (status === "submitting") {
@@ -60,16 +63,31 @@ export default function ContactForm() {
   } = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    // Spam protection: drop bot submissions silently (show "success" so bots
+    // don't retry) before anything reaches the backend.
+    //  1. Honeypot — a hidden field only bots fill in.
+    //  2. Time trap — submissions faster than 3s are not a real person.
+    const tooFast = Date.now() - mountedAt.current < 3000;
+    if (data.company || tooFast) {
+      setStatus("success");
+      reset();
+      return;
+    }
+
     setStatus("submitting");
     try {
       const scriptUrl = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
       if (!scriptUrl) throw new Error("Script URL not configured");
 
+      // Don't send the honeypot field to the sheet.
+      const payload = { ...data };
+      delete payload.company;
+
       await fetch(scriptUrl, {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "text/plain" },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       });
 
       setStatus("success");
@@ -104,6 +122,22 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
+      {/* Honeypot — hidden from real users, catches bots. Not type=hidden so
+          autofill bots still target it. */}
+      <div
+        aria-hidden
+        style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}
+      >
+        <label htmlFor="company">Company (leave this blank)</label>
+        <input
+          id="company"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          {...register("company")}
+        />
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Full Name */}
         <div>
@@ -219,7 +253,6 @@ export default function ContactForm() {
           className={`${base} resize-none ${errors.businessDescription ? err : ok}`}
           {...register("businessDescription", {
             required: "Please tell us a bit about your business",
-            minLength: { value: 30, message: "Please provide at least a sentence or two" },
           })}
         />
         {errors.businessDescription && <p className={msg}>{errors.businessDescription.message}</p>}
