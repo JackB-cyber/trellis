@@ -1,43 +1,43 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import AnimatedSection from "@/components/AnimatedSection";
+import Reveal from "@/components/Reveal";
+import SplitReveal from "@/components/SplitReveal";
+import WorkShowcase from "@/components/WorkShowcase";
 import PortfolioSlideshow from "@/components/PortfolioSlideshow";
 
 export const metadata: Metadata = {
-  title: "Our Work — Trellis Digital",
-  description: "A selection of websites we've built for Canadian small businesses across a range of industries.",
+  title: "Our Portfolio — Trellis Digital",
+  description:
+    "A selection of website builds for the restaurant industry, the trades, and professional services.",
 };
 
 const projects = [
   {
-    name: "Elk Valley Outfitters",
-    industry: "Adventure Tourism",
-    location: "Fernie, BC",
+    name: "Restaurant & Hospitality",
+    industry: "Restaurant Industry",
     description:
-      "A full rebuild for a guided adventure tour operator in the Rockies. New booking form, seasonal trip listings, and a mobile-first gallery. Online inquiries were up 40% within three months of launch.",
-    tags: ["Website Redesign", "Custom Forms", "SEO Setup", "Mobile-First"],
-    gradient: "bg-gradient-to-br from-[#1B4D35] via-[#163D2A] to-[#0B1310]",
-    accentColor: "#4CAF82",
-    pattern: "mountains",
-  },
-  {
-    name: "Prairie Root Kitchen",
-    industry: "Food & Beverage",
-    location: "Lacombe, AB",
-    description:
-      "A brand-new site for a farm-to-table restaurant in central Alberta. Interactive menu, online reservations, and local SEO targeting the surrounding communities. Launched ahead of schedule.",
-    tags: ["New Website", "Reservations", "Local SEO", "Menu System"],
+      "A complete build for the restaurant space: interactive menu, online reservations, and a local SEO structure designed to fill tables. Mobile-first, because that's where diners are looking.",
+    tags: ["Interactive Menu", "Reservations", "Local SEO", "Mobile-First"],
     gradient: "bg-gradient-to-br from-[#5C3317] via-[#3D2010] to-[#1A0A05]",
     accentColor: "#D4854A",
     pattern: "organic",
   },
   {
-    name: "Summit Legal Group",
-    industry: "Professional Services",
-    location: "Calgary, AB",
+    name: "Trades & Contracting",
+    industry: "Skilled Trades",
     description:
-      "A clean, professional site for a corporate law firm. Practice area pages, lawyer profiles, a consultation request form, and schema markup for local search.",
-    tags: ["New Website", "Professional Design", "SEO", "Consultation Form"],
+      "Built for contractors and trades businesses: service area pages, a fast quote-request form, project galleries, and the local search setup that puts you in front of homeowners who need you now.",
+    tags: ["Quote Request Forms", "Service Area Pages", "Project Gallery", "Local SEO"],
+    gradient: "bg-gradient-to-br from-[#1B4D35] via-[#163D2A] to-[#0B1310]",
+    accentColor: "#4CAF82",
+    pattern: "mountains",
+  },
+  {
+    name: "Professional Services",
+    industry: "Professional Services",
+    description:
+      "A clean, credible presence for firms and practices: service pages, team profiles, a consultation request form, and schema markup so local search understands exactly what you do.",
+    tags: ["Consultation Forms", "Team Profiles", "Schema Markup", "SEO"],
     gradient: "bg-gradient-to-br from-[#1C2E4A] via-[#122038] to-[#080F1C]",
     accentColor: "#6B9FD4",
     pattern: "grid",
@@ -47,64 +47,64 @@ const projects = [
 export default function WorkPage() {
   return (
     <>
-      {/* Page Header */}
-      <section className="grain relative bg-ink pt-32 pb-20 overflow-hidden">
+      {/* Page hero */}
+      <section className="relative bg-abyss pt-40 pb-20 md:pb-28 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_0%,rgba(27,51,40,0.5),transparent)] pointer-events-none" />
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
-          <AnimatedSection>
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-6 h-px bg-gold" />
-              <span className="text-gold text-xs font-semibold tracking-[0.2em] uppercase">
-                Portfolio
-              </span>
-            </div>
-            <h1 className="text-5xl sm:text-6xl font-bold text-white mb-5 leading-tight max-w-xl">
-              Work We&apos;re Proud Of
-            </h1>
-            <p className="text-white/45 text-lg max-w-lg leading-relaxed">
-              Every project is built from scratch. Hover over a card to read
-              about the work.
+          <Reveal>
+            <p className="eyebrow mb-6">Our Portfolio</p>
+          </Reveal>
+          <SplitReveal as="h1" trigger="load" delay={0.3} className="display-xl text-bone mb-8">
+            Work that <span className="accent-word">grows</span> businesses.
+          </SplitReveal>
+          <Reveal delay={0.6}>
+            <p className="text-bone/45 text-lg max-w-lg leading-relaxed">
+              Three builds, three industries. Every piece is designed from
+              scratch around how that business actually wins customers.
             </p>
-          </AnimatedSection>
+          </Reveal>
         </div>
       </section>
 
-      {/* Slideshow */}
-      <section className="bg-deep py-16">
-        <AnimatedSection delay={0.1}>
-          <PortfolioSlideshow projects={projects} />
-        </AnimatedSection>
+      {/* Desktop: scroll showcase */}
+      <section className="hidden md:block bg-abyss pb-32">
+        <WorkShowcase projects={projects} />
+      </section>
 
-        {/* Scroll hint */}
-        <AnimatedSection delay={0.2} className="max-w-7xl mx-auto px-6 lg:px-8 mt-6">
-          <p className="text-white/25 text-xs tracking-widest uppercase">
-            Scroll to explore →
+      {/* Mobile: drag slideshow */}
+      <section className="md:hidden bg-abyss pb-20">
+        <Reveal>
+          <PortfolioSlideshow projects={projects} />
+        </Reveal>
+        <Reveal delay={0.1} className="max-w-7xl mx-auto px-6 mt-6">
+          <p className="text-bone/25 text-xs tracking-widest uppercase">
+            Swipe to explore →
           </p>
-        </AnimatedSection>
+        </Reveal>
       </section>
 
       {/* Bottom CTA */}
-      <section className="grain relative bg-ink py-24 overflow-hidden">
+      <section className="relative bg-ink py-28 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_60%_at_50%_100%,rgba(27,51,40,0.4),transparent)] pointer-events-none" />
         <div className="relative max-w-3xl mx-auto px-6 lg:px-8 text-center">
-          <AnimatedSection>
-            <h2 className="text-4xl font-bold text-white mb-5 leading-tight">
-              Want to Be Our Next Project?
+          <Reveal>
+            <h2 className="display-lg text-bone mb-6">
+              Your project <span className="accent-word">here.</span>
             </h2>
-            <p className="text-white/40 mb-10 text-lg leading-relaxed">
-              We&apos;re currently taking on new clients. Get in touch and
-              tell us what you&apos;re working with.
+            <p className="text-bone/40 mb-10 text-lg leading-relaxed">
+              We&apos;re currently taking on new clients. Get in touch and tell
+              us what you&apos;re working with.
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2.5 bg-gold text-parchment font-semibold px-8 py-4 rounded hover:bg-gold-light transition-colors"
+              className="inline-flex items-center gap-2.5 bg-gold text-abyss font-semibold px-8 py-4 rounded-full hover:bg-gold-bright transition-colors"
             >
               Start a Project
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </Link>
-          </AnimatedSection>
+          </Reveal>
         </div>
       </section>
     </>

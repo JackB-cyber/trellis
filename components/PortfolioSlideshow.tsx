@@ -4,10 +4,10 @@ import { useState } from "react";
 import { motion, AnimatePresence, PanInfo } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
-interface Project {
+export interface Project {
   name: string;
   industry: string;
-  location: string;
+  location?: string;
   description: string;
   tags: string[];
   gradient: string;
@@ -40,7 +40,7 @@ const slideVariants = {
   }),
 };
 
-function PatternOverlay({ pattern, accentColor }: { pattern?: string; accentColor?: string }) {
+export function PatternOverlay({ pattern, accentColor }: { pattern?: string; accentColor?: string }) {
   const color = accentColor ?? "rgba(255,255,255,0.06)";
 
   if (pattern === "mountains") {
@@ -170,7 +170,9 @@ function ProjectCard({ project }: { project: Project }) {
         <h3 className="text-white text-3xl sm:text-4xl font-bold leading-tight">
           {project.name}
         </h3>
-        <p className="text-white/35 text-sm mt-1.5">{project.location}</p>
+        {project.location && (
+          <p className="text-white/35 text-sm mt-1.5">{project.location}</p>
+        )}
       </motion.div>
 
       {/* Hover/tap hint */}
@@ -213,7 +215,7 @@ function ProjectCard({ project }: { project: Project }) {
           {project.industry}
         </span>
         <h3 className="text-white text-xl font-bold mt-1 mb-0.5">{project.name}</h3>
-        <p className="text-white/30 text-xs mb-4">{project.location}</p>
+        {project.location && <p className="text-white/30 text-xs mb-4">{project.location}</p>}
         <p className="text-white/60 text-sm leading-relaxed mb-5">{project.description}</p>
         <div className="flex flex-wrap gap-2">
           {project.tags.map((tag) => (

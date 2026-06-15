@@ -15,10 +15,10 @@ type FormValues = {
 };
 
 const budgetOptions = [
-  { value: "", label: "Select a range..." },
-  { value: "2000-3500", label: "$2,000 – $3,500" },
-  { value: "3500-5000", label: "$3,500 – $5,000" },
-  { value: "5000-plus", label: "$5,000+" },
+  { value: "", label: "Select an option..." },
+  { value: "standard-3597", label: "Standard package — $3,597" },
+  { value: "standard-plus", label: "Package + extra features" },
+  { value: "not-sure", label: "Not sure yet" },
 ];
 
 export default function ContactForm() {
@@ -81,14 +81,14 @@ export default function ContactForm() {
 
   if (status === "success") {
     return (
-      <div className="bg-forest/8 border border-forest/15 rounded-xl p-12 text-center">
-        <div className="w-14 h-14 bg-forest rounded-full flex items-center justify-center mx-auto mb-5">
-          <svg className="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="border border-gold/30 rounded-2xl p-12 text-center bg-white/[0.02]">
+        <div className="w-14 h-14 bg-gold rounded-full flex items-center justify-center mx-auto mb-5">
+          <svg className="w-7 h-7 text-abyss" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h3 className="text-2xl font-bold text-forest mb-3">Inquiry Received!</h3>
-        <p className="text-muted leading-relaxed max-w-sm mx-auto">
+        <h3 className="font-display text-3xl text-bone mb-3">Inquiry received.</h3>
+        <p className="text-bone/45 leading-relaxed max-w-sm mx-auto">
           We&apos;ll be in touch within one business day.
         </p>
       </div>
@@ -96,11 +96,11 @@ export default function ContactForm() {
   }
 
   const base =
-    "w-full px-4 py-3 rounded-lg border bg-white text-charcoal text-sm focus:outline-none focus:ring-2 focus:ring-forest/20 focus:border-forest/50 transition-colors placeholder:text-muted/40";
-  const err = "border-red-300";
-  const ok = "border-sand";
-  const lbl = "block text-sm font-medium text-charcoal mb-1.5";
-  const msg = "mt-1.5 text-xs text-red-500";
+    "w-full px-0 py-3 bg-transparent border-0 border-b rounded-none text-bone text-base focus:outline-none focus:border-gold transition-colors placeholder:text-bone/25";
+  const err = "border-red-400/70";
+  const ok = "border-moss/40";
+  const lbl = "block font-display text-base text-bone/80 mb-1";
+  const msg = "mt-1.5 text-xs text-red-400";
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
@@ -108,7 +108,7 @@ export default function ContactForm() {
         {/* Full Name */}
         <div>
           <label htmlFor="fullName" className={lbl}>
-            Full Name <span className="text-red-400">*</span>
+            Full Name <span className="text-gold">*</span>
           </label>
           <input
             id="fullName"
@@ -123,7 +123,7 @@ export default function ContactForm() {
         {/* Business Name */}
         <div>
           <label htmlFor="businessName" className={lbl}>
-            Business Name <span className="text-red-400">*</span>
+            Business Name <span className="text-gold">*</span>
           </label>
           <input
             id="businessName"
@@ -140,7 +140,7 @@ export default function ContactForm() {
         {/* Email */}
         <div>
           <label htmlFor="email" className={lbl}>
-            Email <span className="text-red-400">*</span>
+            Email <span className="text-gold">*</span>
           </label>
           <input
             id="email"
@@ -161,7 +161,7 @@ export default function ContactForm() {
         {/* Phone */}
         <div>
           <label htmlFor="phone" className={lbl}>
-            Phone <span className="text-muted/50 font-normal">(optional)</span>
+            Phone <span className="text-bone/30 font-normal text-sm">(optional)</span>
           </label>
           <input
             id="phone"
@@ -177,7 +177,7 @@ export default function ContactForm() {
       <div>
         <label htmlFor="websiteUrl" className={lbl}>
           Current Website{" "}
-          <span className="text-muted/50 font-normal">(if you have one)</span>
+          <span className="text-bone/30 font-normal text-sm">(if you have one)</span>
         </label>
         <input
           id="websiteUrl"
@@ -191,11 +191,11 @@ export default function ContactForm() {
       {/* Budget */}
       <div>
         <label htmlFor="budget" className={lbl}>
-          Budget Range <span className="text-red-400">*</span>
+          Budget Range <span className="text-gold">*</span>
         </label>
         <select
           id="budget"
-          className={`${base} ${errors.budget ? err : ok}`}
+          className={`${base} [&>option]:bg-ink [&>option]:text-bone ${errors.budget ? err : ok}`}
           {...register("budget", { required: "Please select a budget range" })}
         >
           {budgetOptions.map((opt) => (
@@ -210,7 +210,7 @@ export default function ContactForm() {
       {/* Business description */}
       <div>
         <label htmlFor="businessDescription" className={lbl}>
-          Tell us about your business <span className="text-red-400">*</span>
+          Tell us about your business <span className="text-gold">*</span>
         </label>
         <textarea
           id="businessDescription"
@@ -226,7 +226,7 @@ export default function ContactForm() {
       </div>
 
       {status === "error" && (
-        <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3">
+        <div className="bg-red-500/10 border border-red-400/30 text-red-300 text-sm rounded-lg px-4 py-3">
           Something went wrong. Please try again or email us at{" "}
           <a href="mailto:hello@trellisdigital.ca" className="underline font-medium">
             hello@trellisdigital.ca
@@ -236,16 +236,16 @@ export default function ContactForm() {
       )}
 
       {status === "submitting" ? (
-        <div className="w-full bg-forest/8 border border-forest/15 rounded-lg py-4 px-5">
+        <div className="w-full border border-gold/25 rounded-full py-4 px-6 bg-white/[0.02]">
           <div className="flex items-center justify-between mb-2.5">
-            <span className="text-forest text-sm font-medium">Sending your inquiry...</span>
-            <span className="text-forest text-sm font-bold tabular-nums">
+            <span className="text-bone/70 text-sm font-medium">Sending your inquiry...</span>
+            <span className="text-gold text-sm font-bold tabular-nums">
               {Math.round(progress)}%
             </span>
           </div>
-          <div className="w-full h-1.5 bg-forest/10 rounded-full overflow-hidden">
+          <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-forest rounded-full"
+              className="h-full bg-gold rounded-full"
               animate={{ width: `${progress}%` }}
               transition={{ duration: 0.18, ease: "linear" }}
             />
@@ -254,13 +254,13 @@ export default function ContactForm() {
       ) : (
         <button
           type="submit"
-          className="w-full bg-forest text-white font-semibold py-4 rounded-lg hover:bg-forest-dark transition-colors text-sm sm:text-base"
+          className="w-full bg-gold text-abyss font-semibold py-4 rounded-full hover:bg-gold-bright transition-colors text-sm sm:text-base"
         >
           Send My Inquiry
         </button>
       )}
 
-      <p className="text-xs text-muted/50 text-center">
+      <p className="text-xs text-bone/25 text-center">
         We typically respond within 1 business day. No spam, ever.
       </p>
     </form>

@@ -1,80 +1,155 @@
 "use client";
 
-import { motion } from "framer-motion";
-import AnimatedSection from "@/components/AnimatedSection";
+import { useRef } from "react";
+import { gsap, useGSAP } from "@/lib/gsap";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import Reveal from "./Reveal";
 
 const steps = [
   {
     step: "01",
     title: "Tell Us About Your Business",
     desc: "Fill out our quick form or send us an email. We'll get back within one business day with questions and a clear outline of what's possible.",
-    icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-      </svg>
-    ),
   },
   {
     step: "02",
     title: "We Design & Build",
     desc: "Once you approve the quote, we get to work. You'll see progress at every stage and have real say throughout. Nothing gets built without your sign-off.",
-    icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-      </svg>
-    ),
   },
   {
     step: "03",
     title: "You Launch with Confidence",
     desc: "We handle the technical handoff: domain, hosting, analytics setup. You get a site that's fast, mobile-ready, and fully yours.",
-    icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-      </svg>
-    ),
   },
 ];
 
 export default function ProcessSection() {
-  return (
-    <section className="bg-parchment py-24">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <AnimatedSection className="mb-14">
-          <div className="flex items-center gap-3 mb-5">
-            <div className="w-6 h-px bg-gold" />
-            <span className="text-gold text-xs font-semibold tracking-[0.2em] uppercase">
-              How It Works
-            </span>
-          </div>
-          <h2 className="text-4xl font-bold text-forest leading-tight max-w-sm">
-            Simple from Start to Launch
-          </h2>
-        </AnimatedSection>
+  const ref = useRef<HTMLElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const reduced = usePrefersReducedMotion();
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
-          {/* Connector line (desktop) */}
-          <div className="hidden md:block absolute top-10 left-[calc(16.66%+1rem)] right-[calc(16.66%+1rem)] h-px bg-sand pointer-events-none" />
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
 
-          {steps.map((s, i) => (
-            <AnimatedSection key={s.step} delay={i * 0.12}>
-              <motion.div
-                className="relative bg-white rounded-xl p-8 border border-sand h-full"
-                whileHover={{ y: -4, boxShadow: "0 16px 40px rgba(27,51,40,0.07)" }}
-                transition={{ duration: 0.25 }}
-              >
-                {/* Step number */}
-                <div className="flex items-center justify-between mb-6">
-                  <div className="w-11 h-11 bg-forest/6 rounded-xl flex items-center justify-center text-forest">
-                    {s.icon}
-                  </div>
-                  <span className="text-4xl font-extrabold text-sand tabular-nums">{s.step}</span>
-                </div>
-                <h3 className="text-lg font-bold text-forest mb-3">{s.title}</h3>
-                <p className="text-muted text-sm leading-relaxed">{s.desc}</p>
-              </motion.div>
-            </AnimatedSection>
+      // Desktop: pin the section, slide panels horizontally
+      mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
+        const track = trackRef.current;
+        if (!track) return;
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: ref.current,
+            start: "top top",
+            end: "+=220%",
+            pin: true,
+            scrub: 1,
+            anticipatePin: 1,
+          },
+        });
+        tl.to(track, { xPercent: (-100 * (steps.length - 1)) / steps.length, ease: "none" }, 0)
+          .fromTo(
+            ".process-line-h",
+            { scaleX: 0 },
+            { scaleX: 1, transformOrigin: "left center", ease: "none" },
+            0
+          );
+      });
+
+      // Mobile: vertical progress line draws as you scroll
+      mm.add("(max-width: 767px)", () => {
+        gsap.fromTo(
+          ".process-line-v",
+          { scaleY: 0 },
+          {
+            scaleY: 1,
+            transformOrigin: "top center",
+            ease: "none",
+            scrollTrigger: {
+              trigger: ".process-steps-v",
+              start: "top 75%",
+              end: "bottom 70%",
+              scrub: true,
+            },
+          }
+        );
+      });
+
+      return () => mm.revert();
+    },
+    { scope: ref }
+  );
+
+  const verticalLayout = (
+    <div className="max-w-7xl mx-auto px-6 py-24">
+      <Reveal className="mb-14">
+        <p className="eyebrow mb-5">How It Works</p>
+        <h2 className="display-lg text-bone">
+          Simple from start to <span className="accent-word">launch.</span>
+        </h2>
+      </Reveal>
+
+      <div className="process-steps-v relative pl-8">
+        <span className="absolute left-[3px] top-2 bottom-2 w-px bg-white/10" />
+        <span className="process-line-v absolute left-[3px] top-2 bottom-2 w-px bg-gold" />
+        <div className="flex flex-col gap-14">
+          {steps.map((s) => (
+            <Reveal key={s.step}>
+              <div className="relative">
+                <span className="absolute -left-[33px] top-1.5 w-[7px] h-[7px] rounded-full bg-gold" />
+                <span className="text-gold/60 text-sm tabular-nums tracking-widest">{s.step}</span>
+                <h3 className="display-md text-bone mt-2 mb-3">{s.title}</h3>
+                <p className="text-bone/40 text-base leading-relaxed">{s.desc}</p>
+              </div>
+            </Reveal>
           ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  if (reduced) {
+    return (
+      <section ref={ref} className="relative bg-abyss overflow-hidden">
+        {verticalLayout}
+      </section>
+    );
+  }
+
+  return (
+    <section ref={ref} className="relative bg-abyss overflow-hidden">
+      {/* Mobile: vertical */}
+      <div className="md:hidden">{verticalLayout}</div>
+
+      {/* Desktop: pinned horizontal panels */}
+      <div className="hidden md:flex h-screen flex-col justify-center">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full mb-16">
+          <p className="eyebrow mb-5">How It Works</p>
+          <h2 className="display-lg text-bone">
+            Simple from start to <span className="accent-word">launch.</span>
+          </h2>
+        </div>
+
+        <div className="relative">
+          <span className="process-line-h absolute top-[4.5rem] left-0 w-full h-px bg-gold/40" />
+          <div ref={trackRef} className="flex">
+            {steps.map((s) => (
+              <div key={s.step} className="w-screen shrink-0 px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto relative">
+                  <span
+                    className="font-display text-[11rem] leading-none text-white/[0.045] select-none pointer-events-none block"
+                    aria-hidden
+                  >
+                    {s.step}
+                  </span>
+                  <div className="relative -mt-16 max-w-xl">
+                    <span className="inline-block w-[9px] h-[9px] rounded-full bg-gold mb-8" />
+                    <h3 className="display-md text-bone mb-5">{s.title}</h3>
+                    <p className="text-bone/40 text-lg leading-relaxed">{s.desc}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

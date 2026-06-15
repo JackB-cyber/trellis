@@ -2,17 +2,20 @@
 
 @theme {
   /* Dark tones — near-black with warm forest undertone */
+  --color-abyss: #060A08;
   --color-ink: #0B1310;
   --color-deep: #131F18;
   --color-forest: #1B3328;
   --color-forest-dark: #0F1E16;
   --color-forest-light: #254D3A;
   --color-grove: #2A4D3C;
+  --color-moss: #3D6B50;
 
   /* Light tones — warm parchment, not flat cream */
   --color-parchment: #F1EBE0;
   --color-parchment-dark: #E8DFD0;
   --color-sand: #DDD3C2;
+  --color-bone: #F1EBE0;
 
   /* Legacy aliases so existing class names don't break */
   --color-cream: #F1EBE0;
@@ -21,6 +24,7 @@
   /* Accent — deep copper-amber */
   --color-gold: #B8782A;
   --color-gold-light: #CC8E42;
+  --color-gold-bright: #D99A45;
   --color-copper: #B8782A;
   --color-copper-light: #CC8E42;
 
@@ -29,18 +33,71 @@
   --color-muted: #6B6358;
 
   --font-sans: var(--font-inter);
-}
-
-html {
-  scroll-behavior: smooth;
+  --font-display: var(--font-fraunces);
 }
 
 body {
-  background: #F1EBE0;
-  color: #1C1812;
+  background: #060A08;
+  color: #F1EBE0;
 }
 
-/* Grain texture for dark sections */
+::selection {
+  background: #B8782A;
+  color: #060A08;
+}
+
+/* ---- Display typography ---- */
+.display-xl {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 10vw, 9.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  font-weight: 480;
+}
+
+.display-lg {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 6vw, 5rem);
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+  font-weight: 460;
+}
+
+.display-md {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.4vw, 2.75rem);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  font-weight: 460;
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #B8782A;
+}
+
+/* Italic gold accent word inside display headings */
+.accent-word {
+  font-style: italic;
+  color: #B8782A;
+  font-variation-settings: "SOFT" 60, "WONK" 1;
+}
+
+/* ---- Grain texture overlay (applied once, fixed, in layout) ---- */
+.grain-fixed {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Per-section grain (legacy pattern, still used by light interludes) */
 .grain::after {
   content: "";
   position: absolute;
@@ -50,22 +107,62 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Scan lines — single CSS animation, no JS overhead */
-@keyframes scanReveal {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+/* ---- CSS marquee — no JS ---- */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
-.scan-lines {
-  opacity: 0;
-  animation: scanReveal 1.4s ease forwards;
-  animation-delay: 0.15s;
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+  will-change: transform;
+}
+.marquee-track-fast {
+  animation-duration: 18s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
 }
 
-/* Hide scrollbar utility */
+/* ---- Draw-underline link ---- */
+.draw-link {
+  position: relative;
+  text-decoration: none;
+}
+.draw-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.draw-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ---- Hide scrollbar utility ---- */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Lenis recommended styles */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
