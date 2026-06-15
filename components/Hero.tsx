@@ -50,7 +50,7 @@ export default function Hero() {
       {/* Depth gradient */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_75%_55%_at_60%_30%,rgba(27,51,40,0.55),transparent)] pointer-events-none" />
 
-      {/* The Growing Lattice */}
+      {/* Firefly / spore field */}
       <div className="absolute inset-0 opacity-50 md:opacity-100">
         <HeroSceneLoader />
       </div>
@@ -88,10 +88,10 @@ export default function Hero() {
             </svg>
           </Link>
           <Link
-            href="/work"
+            href="/services"
             className="inline-flex items-center justify-center px-8 py-4 rounded-full text-[15px] font-medium text-bone/60 border border-white/15 hover:border-gold/50 hover:text-bone transition-all"
           >
-            View Our Portfolio
+            View Our Services
           </Link>
         </div>
       </div>

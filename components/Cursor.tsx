@@ -30,12 +30,56 @@ export default function Cursor() {
     const ringX = gsap.quickTo(ring, "x", { duration: 0.45, ease: "power3.out" });
     const ringY = gsap.quickTo(ring, "y", { duration: 0.45, ease: "power3.out" });
 
+    // Velocity-driven sizing: the ring shrinks as the cursor speeds up and eases
+    // back to full size as it slows or stops. Hover state (link/drag) and velocity
+    // both feed a single scale, applied each frame so they compose without fighting.
+    const MIN_SCALE = 0.55; // smallest the ring gets at top speed
+    const SPEED_REF = 2.5; // px/ms that maps to maximum shrink
+    let speed = 0; // smoothed pointer speed (px/ms)
+    let velTarget = 1; // size target derived from speed
+    let velScale = 1; // current velocity-based scale (eased toward target)
+    let hoverScale = 1; // current hover-based scale (eased)
+    let hoverTarget = 1; // hover-based scale target
+    let lastX = 0;
+    let lastY = 0;
+    let lastT = performance.now();
+    let lastMove = 0;
+    let primed = false;
+
+    const speedToScale = (s: number) => 1 - Math.min(s / SPEED_REF, 1) * (1 - MIN_SCALE);
+
+    const tick = () => {
+      // When the cursor hasn't moved recently, bleed speed off so the ring grows back.
+      if (performance.now() - lastMove > 60) {
+        speed *= 0.8;
+        velTarget = speedToScale(speed);
+      }
+      velScale += (velTarget - velScale) * 0.18; // eased — never abrupt
+      hoverScale += (hoverTarget - hoverScale) * 0.2;
+      gsap.set(ring, { scale: hoverScale * velScale });
+    };
+    gsap.ticker.add(tick);
+
     let visible = false;
     const onMove = (e: MouseEvent) => {
       if (!visible) {
         visible = true;
         gsap.to([dot, ring], { autoAlpha: 1, duration: 0.25 });
       }
+      const now = performance.now();
+      const dt = Math.max(now - lastT, 1);
+      if (primed) {
+        const dist = Math.hypot(e.clientX - lastX, e.clientY - lastY);
+        const sample = dist / dt; // px per ms
+        speed += (sample - speed) * 0.4; // smooth incoming samples
+        velTarget = speedToScale(speed);
+      }
+      lastX = e.clientX;
+      lastY = e.clientY;
+      lastT = now;
+      lastMove = now;
+      primed = true;
+
       dotX(e.clientX);
       dotY(e.clientY);
       ringX(e.clientX);
@@ -48,18 +92,20 @@ export default function Cursor() {
       const mode = target.getAttribute("data-cursor");
       if (mode === "drag") {
         label.textContent = "Drag";
-        gsap.to(ring, { scale: 2.4, backgroundColor: "rgba(184,120,42,0.92)", duration: 0.3 });
+        hoverTarget = 2.4;
+        gsap.to(ring, { backgroundColor: "rgba(184,120,42,0.92)", duration: 0.3 });
         gsap.to(label, { autoAlpha: 1, duration: 0.2 });
         gsap.to(dot, { autoAlpha: 0, duration: 0.2 });
       } else {
-        gsap.to(ring, { scale: 1.7, duration: 0.3 });
+        hoverTarget = 1.7;
       }
     };
 
     const onOut = (e: MouseEvent) => {
       const target = (e.target as HTMLElement).closest("a, button, [data-cursor]");
       if (!target) return;
-      gsap.to(ring, { scale: 1, backgroundColor: "rgba(184,120,42,0)", duration: 0.3 });
+      hoverTarget = 1;
+      gsap.to(ring, { backgroundColor: "rgba(184,120,42,0)", duration: 0.3 });
       gsap.to(label, { autoAlpha: 0, duration: 0.15 });
       gsap.to(dot, { autoAlpha: 1, duration: 0.2 });
     };
@@ -74,6 +120,7 @@ export default function Cursor() {
     document.addEventListener("mouseout", onOut);
     document.documentElement.addEventListener("mouseleave", onLeave);
     return () => {
+      gsap.ticker.remove(tick);
       window.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseover", onOver);
       document.removeEventListener("mouseout", onOut);

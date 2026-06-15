@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import LatticePoster from "./LatticePoster";
 
-// ssr:false must live in a client component in Next 16 — keeps three out of the server bundle
+// ssr:false must live in a client component in Next 16 — keeps three out of the server bundle.
+// Fallback is null (not a poster): the hero already paints its own dark gradient backdrop, so
+// there's nothing to fill, and the firefly scene fades in from zero on its own.
 const HeroScene = dynamic(() => import("./HeroScene"), {
   ssr: false,
-  loading: () => <LatticePoster />,
+  loading: () => null,
 });
 
 export default function HeroSceneLoader() {
@@ -25,6 +26,7 @@ export default function HeroSceneLoader() {
     setCapable(!reduced && webgl);
   }, []);
 
-  if (!capable) return <LatticePoster />;
+  // No-WebGL / reduced-motion users get the hero's static gradient backdrop, no particles.
+  if (!capable) return null;
   return <HeroScene />;
 }
