@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 48" width="256" height="48" fill="none" role="img" aria-label="Trellis Digital">
+  <defs>
+    
+  </defs>
+  
+  <g transform="translate(1,0) scale(0.48)" stroke="#B8782A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 25,14 L 25,86" stroke-width="9"></path>
+    <path d="M 54,86 L 54,28 Q 54,11 73,11" stroke-width="9"></path>
+    <path d="M 10,38 L 67,38" stroke-width="9"></path>
+    <path d="M 10,61 L 67,61" stroke-width="9"></path>
+  </g>
+  
+  <text class="td-word" x="54" y="31" font-size="20" font-weight="400" letter-spacing="1.2" fill="#F1EBE0">trellis digital</text>
+</svg>

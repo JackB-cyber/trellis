@@ -26,6 +26,10 @@ export const metadata: Metadata = {
   title: "Trellis Digital — Web Design for Canadian Small Businesses",
   description:
     "Web design for Canadian small businesses. Fixed pricing, honest timelines, and everything handled start to finish.",
+  icons: {
+    icon: { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+    apple: { url: "/apple-touch-icon.png" },
+  },
 };
 
 export default function RootLayout({

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Reveal from "./Reveal";
+import TrellisLogo from "./TrellisLogo";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -29,11 +30,8 @@ export default function Footer() {
 
         <div className="mt-16 md:mt-24 pt-10 border-t border-white/[0.07] grid grid-cols-2 md:grid-cols-4 gap-10">
           <div className="col-span-2 md:col-span-1">
-            <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-7 h-7 bg-gold rounded flex items-center justify-center">
-                <span className="text-abyss font-bold text-xs tracking-wide">TD</span>
-              </div>
-              <span className="font-display text-base text-bone tracking-tight">Trellis Digital</span>
+            <div className="mb-4">
+              <TrellisLogo height={26} />
             </div>
             <p className="text-bone/30 text-sm leading-relaxed max-w-xs">
               Done-for-you web design for Canadian small businesses. Fixed pricing,

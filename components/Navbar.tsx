@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MenuOverlay from "./MenuOverlay";
+import TrellisLogo from "./TrellisLogo";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -38,11 +39,8 @@ export default function Navbar() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-8 h-16 md:h-20 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2.5 shrink-0" onClick={() => setOpen(false)}>
-            <div className="w-7 h-7 bg-gold rounded flex items-center justify-center">
-              <span className="text-abyss font-bold text-xs tracking-wide">TD</span>
-            </div>
-            <span className="font-display text-lg text-bone tracking-tight">Trellis Digital</span>
+          <Link href="/" className="flex items-center shrink-0" onClick={() => setOpen(false)}>
+            <TrellisLogo height={28} />
           </Link>
 
           <div className="flex items-center gap-3 sm:gap-5">
