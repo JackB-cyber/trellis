@@ -11,7 +11,7 @@ const BeforeAfterSlider = dynamic(() => import("@/components/BeforeAfterSlider")
 export const metadata: Metadata = {
   title: "Our Portfolio — Trellis Digital",
   description:
-    "A selection of website builds for the restaurant industry, the trades, and professional services.",
+    "Websites we've built for restaurants, the trades, and professional services.",
 };
 
 const projects = [
@@ -19,7 +19,7 @@ const projects = [
     name: "Restaurant & Hospitality",
     industry: "Restaurant Industry",
     description:
-      "A complete build for the restaurant space: interactive menu, online reservations, and a local SEO structure designed to fill tables. Mobile-first, because that's where diners are looking.",
+      "A full website for a restaurant: interactive menu, online reservations, and local SEO to help fill tables. It's mobile-first, which is how most people look up a place to eat.",
     tags: ["Interactive Menu", "Reservations", "Local SEO", "Mobile-First"],
     gradient: "bg-gradient-to-br from-[#5C3317] via-[#3D2010] to-[#1A0A05]",
     accentColor: "#D4854A",
@@ -29,7 +29,7 @@ const projects = [
     name: "Trades & Contracting",
     industry: "Skilled Trades",
     description:
-      "Built for contractors and trades businesses: service area pages, a fast quote-request form, project galleries, and the local search setup that puts you in front of homeowners who need you now.",
+      "Built for contractors and trades businesses: service area pages, a quick quote-request form, project galleries, and local search setup so nearby homeowners can find you.",
     tags: ["Quote Request Forms", "Service Area Pages", "Project Gallery", "Local SEO"],
     gradient: "bg-gradient-to-br from-[#1B4D35] via-[#163D2A] to-[#0B1310]",
     accentColor: "#4CAF82",
@@ -39,7 +39,7 @@ const projects = [
     name: "Professional Services",
     industry: "Professional Services",
     description:
-      "A clean, credible presence for firms and practices: service pages, team profiles, a consultation request form, and schema markup so local search understands exactly what you do.",
+      "A straightforward site for firms and practices: service pages, team profiles, a consultation request form, and schema markup so search engines understand what you do.",
     tags: ["Consultation Forms", "Team Profiles", "Schema Markup", "SEO"],
     gradient: "bg-gradient-to-br from-[#1C2E4A] via-[#122038] to-[#080F1C]",
     accentColor: "#6B9FD4",
@@ -62,8 +62,9 @@ export default function WorkPage() {
           </SplitReveal>
           <Reveal delay={0.6}>
             <p className="text-bone/45 text-lg max-w-lg leading-relaxed">
-              Three builds, three industries. Every piece is designed from
-              scratch around how that business actually wins customers.
+              A few of the websites we&apos;ve built, across different
+              industries. Each one is built around how that business brings in
+              customers.
             </p>
           </Reveal>
         </div>
@@ -76,8 +77,8 @@ export default function WorkPage() {
             <p className="eyebrow mb-4" style={{ color: "#4CAF82" }}>Client Case Study</p>
             <h2 className="display-md text-bone mb-3">PlantResQ Solutions</h2>
             <p className="text-bone/40 text-base max-w-lg leading-relaxed mb-10">
-              Natural lawn restoration in Edmonton. We rebuilt their presence from the ground up —
-              cleaner structure, faster load, and a design that communicates trust before a word is read.
+              Natural lawn restoration in Edmonton. We rebuilt their site from scratch
+              with a cleaner layout, faster load times, and a more professional look.
             </p>
           </Reveal>
           <Reveal delay={0.1}>
