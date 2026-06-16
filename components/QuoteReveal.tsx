@@ -19,6 +19,24 @@ export default function QuoteReveal({ children, className }: Props) {
       const el = ref.current;
       if (!el || reduced) return;
 
+      // Word-level split + scrub is the heaviest reveal on the page (30+ nodes
+      // recalculated every scroll frame) — mobile gets one cheap fade instead.
+      const mobile = window.matchMedia("(max-width: 767px)").matches;
+      if (mobile) {
+        gsap.fromTo(
+          el,
+          { autoAlpha: 0, y: 16 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.9,
+            ease: "power3.out",
+            scrollTrigger: { trigger: el, start: "top 85%", once: true },
+          }
+        );
+        return;
+      }
+
       const split = SplitText.create(el, {
         type: "words",
         onSplit(self) {

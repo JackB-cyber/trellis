@@ -56,7 +56,10 @@ export default function Hero() {
       </div>
 
       {/* Copy */}
-      <div className="hero-content relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-8 pt-28 pb-36">
+      <div
+        className="hero-content relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-8 pt-28 pb-36"
+        style={{ willChange: "transform, opacity" }}
+      >
         <div className="hero-eyebrow invisible flex items-center gap-3 mb-8">
           <span className="hero-rule block h-px w-8 bg-gold" />
           <span className="eyebrow">Canadian Web Design</span>

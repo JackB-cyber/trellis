@@ -44,14 +44,10 @@ export default function WhyTrellis() {
           { scaleX: 0 },
           {
             scaleX: 1,
+            duration: 1.1,
+            ease: "power3.out",
             transformOrigin: "left center",
-            ease: "none",
-            scrollTrigger: {
-              trigger: rule,
-              start: "top 92%",
-              end: "top 65%",
-              scrub: true,
-            },
+            scrollTrigger: { trigger: rule, start: "top 90%", once: true },
           }
         );
       });

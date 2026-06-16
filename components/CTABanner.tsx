@@ -14,27 +14,41 @@ export default function CTABanner() {
 
   useGSAP(
     () => {
-      // Forest panel blooms open behind the headline
-      gsap.fromTo(
-        ".cta-panel",
-        { clipPath: "circle(0% at 50% 65%)" },
-        {
-          clipPath: "circle(120% at 50% 65%)",
-          ease: "none",
-          scrollTrigger: {
-            trigger: ref.current,
-            start: "top 80%",
-            end: "top 15%",
-            scrub: true,
-          },
-        }
-      );
+      // Forest panel blooms open behind the headline — scrubbed clip-path on
+      // desktop, but clip-path recalculation every scroll frame is expensive,
+      // so mobile gets a cheap one-time opacity fade instead.
+      const mm = gsap.matchMedia();
+      mm.add("(min-width: 768px)", () => {
+        gsap.fromTo(
+          ".cta-panel",
+          { clipPath: "circle(0% at 50% 65%)" },
+          {
+            clipPath: "circle(120% at 50% 65%)",
+            ease: "none",
+            scrollTrigger: {
+              trigger: ref.current,
+              start: "top 80%",
+              end: "top 15%",
+              scrub: true,
+            },
+          }
+        );
+      });
+      mm.add("(max-width: 767px)", () => {
+        gsap.set(".cta-panel", { clipPath: "circle(120% at 50% 65%)", opacity: 0 });
+        gsap.to(".cta-panel", {
+          opacity: 1,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: { trigger: ref.current, start: "top 75%", once: true },
+        });
+      });
 
       // Magnetic CTA — fine pointers only
       const fine = window.matchMedia("(pointer: fine)").matches;
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const wrap = magnetRef.current;
-      if (!fine || reduced || !wrap) return;
+      if (!fine || reduced || !wrap) return () => mm.revert();
 
       const xTo = gsap.quickTo(wrap, "x", { duration: 0.4, ease: "power3.out" });
       const yTo = gsap.quickTo(wrap, "y", { duration: 0.4, ease: "power3.out" });
@@ -54,6 +68,7 @@ export default function CTABanner() {
       return () => {
         wrap.removeEventListener("mousemove", onMove);
         wrap.removeEventListener("mouseleave", onLeave);
+        mm.revert();
       };
     },
     { scope: ref }
