@@ -16,17 +16,17 @@ export default function Hero() {
       gsap.fromTo(
         ".hero-eyebrow",
         { autoAlpha: 0 },
-        { autoAlpha: 1, duration: 0.7, delay: 0.45, ease: "power2.out" }
+        { autoAlpha: 1, duration: 0.5, delay: 0.15, ease: "power2.out" }
       );
       gsap.fromTo(
         ".hero-rule",
         { scaleX: 0 },
-        { scaleX: 1, duration: 0.9, delay: 0.5, ease: "power3.out", transformOrigin: "left center" }
+        { scaleX: 1, duration: 0.6, delay: 0.2, ease: "power3.out", transformOrigin: "left center" }
       );
       gsap.fromTo(
         ".hero-fade",
         { autoAlpha: 0, y: 18 },
-        { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.12, delay: 1.2, ease: "power3.out" }
+        { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.1, delay: 0.4, ease: "power3.out" }
       );
 
       // Content drifts up and fades as the lattice takes over on scroll-out
@@ -68,7 +68,7 @@ export default function Hero() {
         <SplitReveal
           as="h1"
           trigger="load"
-          delay={0.55}
+          delay={0.25}
           className="display-xl text-bone max-w-6xl mb-10"
         >
           Your local business deserves a website that{" "}
@@ -92,7 +92,7 @@ export default function Hero() {
           </Link>
           <Link
             href="/services"
-            className="inline-flex items-center justify-center px-8 py-4 rounded-full text-[15px] font-medium text-bone/60 border border-white/15 hover:border-gold/50 hover:text-bone transition-all"
+            className="inline-flex items-center justify-center px-8 py-4 rounded-full text-[15px] font-medium text-bone/60 border border-white/15 hover:border-gold/50 hover:text-bone transition-colors"
           >
             View Our Services
           </Link>

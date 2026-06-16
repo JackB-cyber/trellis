@@ -1,8 +1,12 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Reveal from "@/components/Reveal";
 import SplitReveal from "@/components/SplitReveal";
-import ContactForm from "@/components/ContactForm";
+
+// Code-split so Framer Motion (used only for the submit progress bar) stays
+// out of the shared chunk other routes — like home — would otherwise download.
+const ContactForm = dynamic(() => import("@/components/ContactForm"), { ssr: false });
 
 const steps = [
   {

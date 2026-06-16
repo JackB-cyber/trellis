@@ -131,7 +131,7 @@ export default function CTABanner() {
               </div>
               <Link
                 href="/services"
-                className="inline-flex items-center justify-center px-9 py-4 rounded-full font-medium text-bone/70 border border-white/20 hover:border-gold/50 hover:text-bone transition-all"
+                className="inline-flex items-center justify-center px-9 py-4 rounded-full font-medium text-bone/70 border border-white/20 hover:border-gold/50 hover:text-bone transition-colors"
               >
                 View Pricing
               </Link>

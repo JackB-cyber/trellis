@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
-import ServicesContent from "./ServicesContent";
+import dynamic from "next/dynamic";
+
+// Code-split so Framer Motion (used only by the FAQ accordion) stays out of
+// the shared chunk other routes — like home — would otherwise download.
+const ServicesContent = dynamic(() => import("./ServicesContent"));
 
 const title = "Services & Pricing";
 const description =
