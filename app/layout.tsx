@@ -22,10 +22,29 @@ const fraunces = Fraunces({
   axes: ["opsz", "SOFT", "WONK"],
 });
 
+const siteTitle = "Trellis Digital — Web Design for Canadian Small Businesses";
+const siteDescription =
+  "Web design for Canadian small businesses. Fixed pricing, honest timelines, and everything handled start to finish.";
+
 export const metadata: Metadata = {
-  title: "Trellis Digital — Web Design for Canadian Small Businesses",
-  description:
-    "Web design for Canadian small businesses. Fixed pricing, honest timelines, and everything handled start to finish.",
+  metadataBase: new URL("https://trellisdigital.ca"),
+  title: {
+    default: siteTitle,
+    template: "%s — Trellis Digital",
+  },
+  description: siteDescription,
+  openGraph: {
+    siteName: "Trellis Digital",
+    title: siteTitle,
+    description: siteDescription,
+    locale: "en_CA",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
+  },
   icons: {
     icon: { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
     apple: { url: "/apple-touch-icon.png" },

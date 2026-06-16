@@ -16,6 +16,7 @@ export default function HeroSceneLoader() {
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const mobile = window.matchMedia("(max-width: 767px)").matches;
     let webgl = false;
     try {
       const canvas = document.createElement("canvas");
@@ -23,10 +24,11 @@ export default function HeroSceneLoader() {
     } catch {
       webgl = false;
     }
-    setCapable(!reduced && webgl);
+    setCapable(!reduced && !mobile && webgl);
   }, []);
 
-  // No-WebGL / reduced-motion users get the hero's static gradient backdrop, no particles.
+  // Mobile / no-WebGL / reduced-motion users get the hero's static gradient backdrop, no
+  // particles — and crucially, the Three.js chunk is never fetched on mobile at all.
   if (!capable) return null;
   return <HeroScene />;
 }

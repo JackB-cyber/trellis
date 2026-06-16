@@ -40,13 +40,13 @@ export default function ProcessSection() {
           scrollTrigger: {
             trigger: ref.current,
             start: "top top",
-            end: "+=220%",
+            end: "+=300%",
             pin: true,
             scrub: 1,
             anticipatePin: 1,
           },
         });
-        tl.to(track, { xPercent: (-100 * (steps.length - 1)) / steps.length, ease: "none" }, 0)
+        tl.to(track, { xPercent: -100 * (steps.length - 1), ease: "none" }, 0)
           .fromTo(
             ".process-line-h",
             { scaleX: 0 },
