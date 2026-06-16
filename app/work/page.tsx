@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import SplitReveal from "@/components/SplitReveal";
 import WorkShowcase from "@/components/WorkShowcase";
 import PortfolioSlideshow from "@/components/PortfolioSlideshow";
+
+const BeforeAfterSlider = dynamic(() => import("@/components/BeforeAfterSlider"));
 
 export const metadata: Metadata = {
   title: "Our Portfolio — Trellis Digital",
@@ -61,6 +64,32 @@ export default function WorkPage() {
             <p className="text-bone/45 text-lg max-w-lg leading-relaxed">
               Three builds, three industries. Every piece is designed from
               scratch around how that business actually wins customers.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* PlantResQ case study — before/after slider */}
+      <section className="bg-abyss pb-24 md:pb-36">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <Reveal>
+            <p className="eyebrow mb-4" style={{ color: "#4CAF82" }}>Client Case Study</p>
+            <h2 className="display-md text-bone mb-3">PlantResQ Solutions</h2>
+            <p className="text-bone/40 text-base max-w-lg leading-relaxed mb-10">
+              Natural lawn restoration in Edmonton. We rebuilt their presence from the ground up —
+              cleaner structure, faster load, and a design that communicates trust before a word is read.
+            </p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <BeforeAfterSlider
+              beforeSrc="/Before.png"
+              afterSrc="/After.png"
+              beforeAlt="PlantResQ old website"
+              afterAlt="PlantResQ redesigned by Trellis Digital"
+              className="w-full shadow-2xl"
+            />
+            <p className="text-bone/25 text-xs tracking-widest uppercase mt-4">
+              Drag to compare ←→
             </p>
           </Reveal>
         </div>
