@@ -97,7 +97,15 @@ export default function Footer() {
           <p className="text-bone/20 text-sm">
             © {new Date().getFullYear()} Trellis Digital. All rights reserved.
           </p>
-          <p className="text-bone/20 text-sm">Made in Canada</p>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/privacy"
+              className="text-bone/25 hover:text-bone/60 transition-colors text-xs"
+            >
+              Privacy Policy
+            </Link>
+            <p className="text-bone/20 text-sm">Made in Canada</p>
+          </div>
         </div>
       </div>
     </footer>

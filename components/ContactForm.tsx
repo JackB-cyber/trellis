@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -295,6 +296,13 @@ export default function ContactForm() {
 
       <p className="text-xs text-bone/25 text-center">
         We typically respond within 1 business day. No spam, ever.
+      </p>
+      <p className="text-xs text-bone/20 text-center leading-relaxed">
+        By submitting this form, you agree to our{" "}
+        <Link href="/privacy" className="underline hover:text-bone/45 transition-colors">
+          Privacy Policy
+        </Link>
+        .
       </p>
     </form>
   );
