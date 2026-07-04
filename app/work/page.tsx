@@ -83,8 +83,8 @@ export default function WorkPage() {
           </Reveal>
           <Reveal delay={0.1}>
             <BeforeAfterSlider
-              beforeSrc="/Before.png"
-              afterSrc="/After.png"
+              beforeSrc="/Before.webp"
+              afterSrc="/After.webp"
               beforeAlt="PlantResQ old website"
               afterAlt="PlantResQ redesigned by Trellis Digital"
               className="w-full shadow-2xl"

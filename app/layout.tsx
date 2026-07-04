@@ -28,7 +28,7 @@ const siteDescription =
   "Web design for Canadian small businesses. Fixed pricing, honest timelines, and everything handled start to finish.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://trellisdigital.ca"),
+  metadataBase: new URL("https://www.trellisdigital.ca"),
   title: {
     default: siteTitle,
     template: "%s — Trellis Digital",

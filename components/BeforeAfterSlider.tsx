@@ -110,6 +110,7 @@ export default function BeforeAfterSlider({
             src={beforeSrc}
             alt={beforeAlt}
             fill
+            priority
             sizes="(max-width: 1280px) 100vw, 1280px"
             className="object-cover object-top"
             draggable={false}
@@ -126,6 +127,7 @@ export default function BeforeAfterSlider({
             src={afterSrc}
             alt={afterAlt}
             fill
+            priority
             sizes="(max-width: 1280px) 100vw, 1280px"
             className="object-cover object-top"
             draggable={false}
