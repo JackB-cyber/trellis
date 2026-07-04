@@ -107,8 +107,8 @@ export default function CTABanner() {
             <p className="eyebrow mb-8">Ready to Get Started?</p>
           </Reveal>
           <SplitReveal as="h2" className="display-lg text-bone mb-7">
-            Let&apos;s build something your customers will{" "}
-            <span className="accent-word">remember.</span>
+            Let&apos;s build a website that works as hard as{" "}
+            <span className="accent-word">you do.</span>
           </SplitReveal>
           <Reveal delay={0.1}>
             <p className="text-bone/50 text-lg max-w-md mx-auto mb-12 leading-relaxed">

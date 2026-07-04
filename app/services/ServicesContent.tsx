@@ -164,7 +164,7 @@ export default function ServicesContent() {
                   </div>
                   <p className="text-bone/45 text-base leading-relaxed mb-8">
                     A complete, custom-built website for your business. Designed
-                    from scratch, optimised for local search, and handled start
+                    from scratch, optimized for local search, and handled start
                     to finish.
                   </p>
                   <Link
@@ -256,7 +256,7 @@ export default function ServicesContent() {
                     href="/contact"
                     className="inline-flex bg-gold text-abyss font-semibold px-7 py-3.5 rounded-full text-sm hover:bg-gold-bright transition-colors"
                   >
-                    Add to My Plan
+                    Ask About the Retainer
                   </Link>
                 </div>
               </div>

@@ -17,13 +17,13 @@ const services = [
     index: "02",
     title: "SEO Setup",
     description:
-      "On-page SEO, Google Business Profile setup, and local search optimisation included with every site we build.",
+      "On-page SEO, Google Business Profile setup, and local search optimization included with every site we build.",
   },
   {
     index: "03",
     title: "Monthly Retainer",
     description:
-      "Ongoing updates, hosting support, and monthly performance reporting so your site stays sharp and current.",
+      "Ongoing updates, hosting support, and monthly performance reporting so your site keeps earning its keep long after launch.",
   },
 ];
 

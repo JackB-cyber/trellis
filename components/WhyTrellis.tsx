@@ -65,7 +65,7 @@ export default function WhyTrellis() {
               <p className="eyebrow mb-6">Why Work With Us</p>
             </Reveal>
             <SplitReveal as="h2" className="display-lg text-forest max-w-md mb-8">
-              We make the process <span className="accent-word">easy.</span>
+              Web design without the usual <span className="accent-word">headaches.</span>
             </SplitReveal>
             <Reveal delay={0.1}>
               <p className="text-muted text-lg leading-relaxed max-w-md">

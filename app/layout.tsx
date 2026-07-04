@@ -34,6 +34,8 @@ export const metadata: Metadata = {
     template: "%s — Trellis Digital",
   },
   description: siteDescription,
+  // Resolves per-page against metadataBase — every route gets a canonical URL
+  alternates: { canonical: "./" },
   openGraph: {
     siteName: "Trellis Digital",
     title: siteTitle,
@@ -52,6 +54,19 @@ export const metadata: Metadata = {
   },
 };
 
+// LocalBusiness structured data for search engines — static, developer-controlled JSON
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "Trellis Digital",
+  description: siteDescription,
+  url: "https://www.trellisdigital.ca",
+  email: "hello@trellisdigital.ca",
+  address: { "@type": "PostalAddress", addressRegion: "AB", addressCountry: "CA" },
+  areaServed: { "@type": "Country", name: "Canada" },
+  priceRange: "$$",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -60,6 +75,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${fraunces.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans bg-abyss text-bone">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <SmoothScroll>
           <Navbar />
           <main className="flex-1">{children}</main>

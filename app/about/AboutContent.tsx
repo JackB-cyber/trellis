@@ -31,7 +31,7 @@ const values = [
 const storyParagraphs = [
   "Trellis Digital started with a simple belief: small businesses deserve great websites. Too many local companies have been burned by agencies that overpromise, underprepare, or disappear after the invoice is paid. We built something different.",
   "Based in Alberta, we work with business owners across Canada, from tradespeople and restaurants to law firms and tour operators. Every project gets the same attention: we learn your business, your customers, and your goals before any design work begins.",
-  "We're not a 50-person agency. We're focused, hands-on, and personally invested in every site we launch. That's not a sales pitch. It's the reason we exist.",
+  "We're not a 50-person agency. We're focused, hands-on, and personally invested in every site we launch. When you work with Trellis, you talk directly to the people building your website.",
 ];
 
 const stats = [
@@ -76,8 +76,8 @@ export default function AboutContent() {
           </SplitReveal>
           <Reveal delay={0.6}>
             <p className="text-bone/45 text-lg max-w-xl leading-relaxed">
-              Trellis Digital exists to give small businesses the kind of web
-              presence that used to take a big agency budget to get.
+              A small Alberta team helping local businesses win online.
+              Here&apos;s who we are and what we stand for.
             </p>
           </Reveal>
         </div>

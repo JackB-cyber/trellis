@@ -14,7 +14,7 @@ const steps = [
   {
     step: "02",
     title: "We Design & Build",
-    desc: "Once you approve the quote, we get to work. You'll see progress at every stage and have real say throughout. Nothing gets built without your sign-off.",
+    desc: "Once you approve the quote, we get to work. You'll see progress at every stage, and nothing launches without your sign-off.",
   },
   {
     step: "03",
@@ -133,7 +133,9 @@ export default function ProcessSection() {
           <span className="process-line-h absolute top-[4.5rem] left-0 w-full h-px bg-gold/40" />
           <div ref={trackRef} className="flex">
             {steps.map((s) => (
-              <div key={s.step} className="w-screen shrink-0 px-6 lg:px-8">
+              // w-full, not w-screen: 100vw includes the scrollbar on Windows,
+              // which desyncs the xPercent slide by the scrollbar width per panel
+              <div key={s.step} className="w-full shrink-0 px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto relative">
                   <span
                     className="font-display text-[11rem] leading-none text-white/[0.045] select-none pointer-events-none block"

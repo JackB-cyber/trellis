@@ -6,7 +6,7 @@ import Reveal from "./Reveal";
 const commitments = [
   {
     value: "1 business day",
-    label: "Response time on every inquiry, from first message to launch.",
+    label: "We answer every message within one business day — from first inquiry to final launch.",
   },
   {
     value: "Fixed pricing",

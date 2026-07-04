@@ -9,9 +9,11 @@ import PortfolioSlideshow from "@/components/PortfolioSlideshow";
 const BeforeAfterSlider = dynamic(() => import("@/components/BeforeAfterSlider"));
 
 export const metadata: Metadata = {
-  title: "Our Portfolio — Trellis Digital",
+  title: "Our Portfolio",
   description:
     "Websites we've built for restaurants, the trades, and professional services.",
+  // Page is unfinished and hidden on purpose (also disallowed in robots.txt)
+  robots: { index: false, follow: false },
 };
 
 const projects = [

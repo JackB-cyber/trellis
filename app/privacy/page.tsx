@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Reveal from "@/components/Reveal";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — Trellis Digital",
+  title: "Privacy Policy",
   description:
     "How Trellis Digital collects, uses, and protects your personal information.",
 };
